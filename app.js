@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const routes = require('./routes/index');
@@ -16,6 +17,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Security middleware
 app.use(helmet());
+
+// Set cors origin
+app.use(
+  cors({
+    origin: ['http://localhost:3000']
+  })
+);
 
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in and allows us to send flash messages
