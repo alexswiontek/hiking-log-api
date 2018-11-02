@@ -1,0 +1,23 @@
+{
+  "name": "hiking-log-api",
+  "version": "0.1.0",
+  "description": "The API layer for the Hiking Log application",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "connect-mongo": "^2.0.1",
+    "dotenv": "^6.1.0",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "helmet": "^3.14.0",
+    "mongoose": "^5.3.8"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
+  "author": "Alex Swiontek",
+  "license": "ISC"
+}
