@@ -1,12 +1,14 @@
 const express = require('express');
 const session = require('express-session');
+const expressValidator = require('express-validator');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const routes = require('./routes/index');
-const port = process.env.PORT || 3333;
+require('./handlers/passport');
 
 // Create the express app
 const app = express();
@@ -14,6 +16,13 @@ const app = express();
 // Takes the raw requests and turns them into usable properties on req.body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Used for validating data
+app.use(expressValidator());
+
+// Passport is used to handle logins
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Security middleware
 app.use(helmet());
