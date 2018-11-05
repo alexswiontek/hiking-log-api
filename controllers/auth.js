@@ -3,6 +3,12 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const promisify = require('es6-promisify');
 const User = mongoose.model('User');
+const mail = require('../handlers/mail');
+
+const frontEndBase =
+  process.env === 'production'
+    ? process.env.FRONTEND_PROD_URL
+    : process.env.FRONTEND_DEV_URL;
 
 exports.passportAuthenticate = passport.authenticate('local');
 
@@ -40,6 +46,18 @@ exports.forgot = async (req, res) => {
   await user.save();
 
   // Send email with the token
+  const resetURL = `${frontEndBase}/reset/${user.resetPasswordToken}`;
+  mail.send({
+    to: user.email,
+    from: 'alxcodes@gmail.com',
+    subject: 'Reset Password',
+    text: 'Whoops! Looks like you need a new password',
+    html: `<p>
+      To reset your password
+      <a href="${resetURL}" target=_blank>visit this link</a>
+      or copy and paste it in your browser.
+    </p>`
+  });
 
   // Send success message
   res.json({ message: success });
