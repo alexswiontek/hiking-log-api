@@ -31,36 +31,40 @@ exports.isLoggedIn = (req, res, next) => {
 };
 
 exports.forgot = async (req, res) => {
-  const user = await User.findOne({ email: req.body.email });
-  const success = 'A password reset has been sent!';
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    const success = 'A password reset has been sent!';
 
-  // See if user exists
-  // Show success regardless for security purposes
-  if (!user) {
-    return res.json({ message: success });
+    // See if user exists
+    // Show success regardless for security purposes
+    if (!user) {
+      return res.json({ message: success });
+    }
+
+    // Create reset token and expiration
+    user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour from now
+    await user.save();
+
+    // Send email with the token
+    const resetURL = `${frontEndBase}/reset/${user.resetPasswordToken}`;
+    mail.send({
+      to: user.email,
+      from: 'alxcodes@gmail.com',
+      subject: 'Reset Password',
+      text: 'Whoops! Looks like you need a new password',
+      html: `<p>
+        To reset your password
+        <a href="${resetURL}" target=_blank>visit this link</a>
+        or copy and paste it in your browser.
+      </p>`
+    });
+
+    // Send success message
+    res.json({ message: success });
+  } catch (e) {
+    res.status(400).json({ message: e });
   }
-
-  // Create reset token and expiration
-  user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
-  user.resetPasswordExpires = Date.now() + 3600000; // 1 hour from now
-  await user.save();
-
-  // Send email with the token
-  const resetURL = `${frontEndBase}/reset/${user.resetPasswordToken}`;
-  mail.send({
-    to: user.email,
-    from: 'alxcodes@gmail.com',
-    subject: 'Reset Password',
-    text: 'Whoops! Looks like you need a new password',
-    html: `<p>
-      To reset your password
-      <a href="${resetURL}" target=_blank>visit this link</a>
-      or copy and paste it in your browser.
-    </p>`
-  });
-
-  // Send success message
-  res.json({ message: success });
 };
 
 exports.confirmedPasswords = (req, res, next) => {
