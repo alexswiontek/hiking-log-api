@@ -10,6 +10,11 @@ const MongoStore = require('connect-mongo')(session);
 const routes = require('./routes/index');
 require('./handlers/passport');
 
+// Import environmental variables
+require('dotenv').config();
+
+const { FRONTEND_DEV_URL, FRONTEND_PROD_URL } = process.env;
+
 // Create the express app
 const app = express();
 
@@ -30,7 +35,7 @@ app.use(helmet());
 // Set cors origin
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://hiking-log.netlify.com']
+    origin: [FRONTEND_DEV_URL, FRONTEND_PROD_URL]
   })
 );
 
