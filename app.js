@@ -15,16 +15,8 @@ const { FRONTEND_DEV_URL, FRONTEND_PROD_URL } = process.env;
 // Create the express app
 const app = express();
 
-// Takes the raw requests and turns them into usable properties on req.body
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 // Used for validating data
 app.use(expressValidator());
-
-// Passport is used to handle logins
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Security middleware
 app.use(helmet());
@@ -47,6 +39,14 @@ app.use(
     store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 );
+
+// Takes the raw requests and turns them into usable properties on req.body
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Passport is used to handle logins
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Set app to use all routes
 app.use('/', routes);
