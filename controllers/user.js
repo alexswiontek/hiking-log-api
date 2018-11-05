@@ -29,7 +29,7 @@ exports.validateRegister = async (req, res, next) => {
   next();
 };
 
-exports.registerHandler = async (req, res, next) => {
+exports.register = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -46,19 +46,4 @@ exports.registerHandler = async (req, res, next) => {
     // Send error result
     res.status(400).json({ message });
   }
-};
-
-exports.loginHandler = (req, res) => {
-  if (req.body.email === 'a@a.co' && req.body.password === 'password') {
-    req.session.authUser = { email: 'a@a.co' };
-    return res.json({ email: 'a@a.co' });
-  }
-  res
-    .status(404)
-    .json({ message: 'Sorry, an account with that email cannot be found.' });
-};
-
-exports.logoutHandler = (req, res) => {
-  delete req.session.authUser;
-  res.json({ ok: true });
 };
