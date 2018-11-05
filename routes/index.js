@@ -8,9 +8,14 @@ router.post(
   '/register',
   userController.validateRegister,
   userController.register,
+  authController.passportAuthenticate,
   authController.login
 );
-router.post('/login', authController.login);
+router.post(
+  '/login',
+  authController.passportAuthenticate,
+  authController.login
+);
 router.post('/logout', authController.logout);
 router.post('/forgot-password', authController.forgot);
 router.post('/reset', authController.confirmedPasswords, authController.reset);

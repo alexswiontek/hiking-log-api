@@ -4,7 +4,11 @@ const mongoose = require('mongoose');
 const promisify = require('es6-promisify');
 const User = mongoose.model('User');
 
-exports.login = passport.authenticate('local');
+exports.passportAuthenticate = passport.authenticate('local');
+
+exports.login = (req, res) => {
+  res.json({ message: 'You have successfully logged in!' });
+};
 
 exports.logout = (req, res) => {
   req.logout();
