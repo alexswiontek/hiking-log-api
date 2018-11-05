@@ -7,7 +7,7 @@ const User = mongoose.model('User');
 exports.passportAuthenticate = passport.authenticate('local');
 
 exports.login = (req, res) => {
-  res.json({ message: 'You have successfully logged in!' });
+  res.json({ email: req.user.email });
 };
 
 exports.logout = (req, res) => {
