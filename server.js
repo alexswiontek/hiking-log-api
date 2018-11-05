@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+// Import environmental variables
+require('dotenv').config();
+
 // Connect to our Database and handle any bad connections
 mongoose.connect(
   process.env.DATABASE_URI,

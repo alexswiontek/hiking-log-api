@@ -10,9 +10,6 @@ const MongoStore = require('connect-mongo')(session);
 const routes = require('./routes/index');
 require('./handlers/passport');
 
-// Import environmental variables
-require('dotenv').config();
-
 const { FRONTEND_DEV_URL, FRONTEND_PROD_URL } = process.env;
 
 // Create the express app
