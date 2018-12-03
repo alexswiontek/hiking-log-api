@@ -3,6 +3,7 @@ const mongodbErrorHandler = require('mongoose-mongodb-errors');
 const passportLocalMongoose = require('passport-local-mongoose');
 
 /* ======= SCHEMA ======= */
+// TODO: add author field below
 const hikeSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -20,11 +21,11 @@ const hikeSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  author: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User',
-    required: 'You must supply an author',
-  },
+  // author: {
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: 'User',
+  //   required: 'You must supply an author',
+  // },
 });
 
 hikeSchema.plugin(passportLocalMongoose, { usernameField: 'email' });

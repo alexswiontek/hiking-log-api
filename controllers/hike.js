@@ -1,12 +1,21 @@
 const mongoose = require('mongoose');
 const Hike = mongoose.model('Hike');
-const promisify = require('es6-promisify');
 
-exports.addHike = async (req, res, next) => {
+exports.addHike = async (req, res) => {
   try {
+    const { name, difficulty, notes = '' } = req.body;
+
     // Create new hike
-    // const addHike
-    res.json({ result: 'it works' });
+    // TODO: add author field to link to a single user
+    const hike = new Hike({
+      name,
+      difficulty,
+      notes,
+      // author: req.user._id,
+    });
+    await hike.save();
+
+    res.status(204).json({});
   } catch (e) {
     // Send error result
     res.status(400).json({ message: e });
