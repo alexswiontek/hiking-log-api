@@ -16,8 +16,21 @@ exports.addHike = async (req, res) => {
     await hike.save();
 
     res.status(204).json({});
-  } catch (e) {
+  } catch ({ message }) {
     // Send error result
-    res.status(400).json({ message: e });
+    res.status(400).json({ message });
+  }
+};
+
+exports.getHikes = async (req, res) => {
+  try {
+    const hikes = await Hike.find()
+      .sort({ created: 'desc' })
+      .select('-__v');
+
+    res.json(hikes);
+  } catch ({ message }) {
+    // Send error result
+    res.status(400).json({ message });
   }
 };
