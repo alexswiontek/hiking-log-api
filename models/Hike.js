@@ -14,6 +14,7 @@ const hikeSchema = new mongoose.Schema({
     type: Number,
     required: 'Please enter the difficulty.',
   },
+  time: String,
   note: String,
   created: {
     type: Date,

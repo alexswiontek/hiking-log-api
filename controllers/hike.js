@@ -3,14 +3,15 @@ const Hike = mongoose.model('Hike');
 
 exports.addHike = async (req, res) => {
   try {
-    const { name, difficulty, notes = '' } = req.body;
+    const { name, difficulty, time, note = '' } = req.body;
 
     // Create new hike
     // TODO: add author field to link to a single user
     const hike = new Hike({
       name,
       difficulty,
-      notes,
+      time,
+      note,
       // author: req.user._id,
     });
     await hike.save();
