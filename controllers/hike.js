@@ -100,9 +100,11 @@ exports.deleteHike = async (req, res) => {
         .json({ message: 'Please supply all required fields.' });
     }
 
-    await Hike.findByIdAndDelete(id);
+    const hikeDeleted = await Hike.findByIdAndDelete(id);
 
-    return res.send({ message: 'Deleted successfully!' });
+    return hikeDeleted
+      ? res.json({ message: 'Deleted successfully!' })
+      : res.status(404).json({ message: 'Hike not found.' });
   } catch ({ message }) {
     // Send error result
     res.status(400).json({ message });
