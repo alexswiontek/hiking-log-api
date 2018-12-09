@@ -24,5 +24,6 @@ router.post('/add-hike', hikeController.addHike);
 router.get('/hikes', hikeController.getHikes);
 router.get('/hike/:id', hikeController.getHike);
 router.put('/hike/:id', hikeController.updateHike);
+router.delete('/hike/:id', hikeController.deleteHike);
 
 module.exports = router;

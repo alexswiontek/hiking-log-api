@@ -16,7 +16,7 @@ exports.addHike = async (req, res) => {
     });
     await hike.save();
 
-    res.status(204).json({});
+    return res.status(204).json({});
   } catch ({ message }) {
     // Send error result
     res.status(400).json({ message });
@@ -29,7 +29,7 @@ exports.getHikes = async (req, res) => {
       .sort({ created: 'desc' })
       .select('-__v');
 
-    res.json(hikes);
+    return res.json(hikes);
   } catch ({ message }) {
     // Send error result
     res.status(400).json({ message });
@@ -84,7 +84,26 @@ exports.updateHike = async (req, res) => {
     } else {
       return res.status(404).json({ message: 'Hike not found' });
     }
-  } catch (e) {
+  } catch ({ message }) {
+    // Send error result
+    res.status(400).json({ message });
+  }
+};
+
+exports.deleteHike = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: 'Please supply all required fields.' });
+    }
+
+    await Hike.findByIdAndDelete(id);
+
+    return res.send({ message: 'Deleted successfully!' });
+  } catch ({ message }) {
     // Send error result
     res.status(400).json({ message });
   }
