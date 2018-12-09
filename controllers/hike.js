@@ -35,3 +35,18 @@ exports.getHikes = async (req, res) => {
     res.status(400).json({ message });
   }
 };
+
+exports.getHike = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const hike = await Hike.findOne({ _id: id });
+
+    return hike
+      ? res.json(hike)
+      : res.status(404).json({ message: 'Hike not found' });
+  } catch ({ message }) {
+    // Send error result
+    res.status(400).json({ message });
+  }
+};

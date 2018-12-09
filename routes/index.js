@@ -22,5 +22,6 @@ router.post('/forgot-password', authController.forgot);
 router.post('/reset', authController.confirmedPasswords, authController.reset);
 router.post('/add-hike', hikeController.addHike);
 router.get('/hikes', hikeController.getHikes);
+router.get('/hike/:id', hikeController.getHike);
 
 module.exports = router;
