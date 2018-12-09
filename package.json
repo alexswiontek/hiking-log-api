@@ -27,7 +27,7 @@
     "validator": "^10.8.0"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.18.7"
   },
   "author": "Alex Swiontek",
   "license": "ISC"
