@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const shortid = require('shortid');
+const mongodbErrorHandler = require('mongoose-mongodb-errors');
 
 /* ======= SCHEMA ======= */
 // TODO: add author field below
 const hikeSchema = new mongoose.Schema({
   _id: {
     type: String,
-    default: shortid.generate
+    default: shortid.generate,
   },
   name: {
     type: String,
@@ -31,6 +32,8 @@ const hikeSchema = new mongoose.Schema({
   //   required: 'You must supply an author',
   // },
 });
+
+hikeSchema.plugin(mongodbErrorHandler);
 
 /* ======= MODELS ======= */
 module.exports = mongoose.model('Hike', hikeSchema);
