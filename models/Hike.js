@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
+const shortid = require('shortid');
 
 /* ======= SCHEMA ======= */
 // TODO: add author field below
 const hikeSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    default: shortid.generate
+  },
   name: {
     type: String,
     required: 'Please enter the name of the hike.',
