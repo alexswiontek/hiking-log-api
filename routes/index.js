@@ -23,5 +23,6 @@ router.post('/reset', authController.confirmedPasswords, authController.reset);
 router.post('/add-hike', hikeController.addHike);
 router.get('/hikes', hikeController.getHikes);
 router.get('/hike/:id', hikeController.getHike);
+router.put('/hike/:id', hikeController.updateHike);
 
 module.exports = router;

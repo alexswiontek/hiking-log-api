@@ -40,12 +40,51 @@ exports.getHike = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const hike = await Hike.findOne({ _id: id });
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: 'Please supply all required fields.' });
+    }
+
+    const hike = await Hike.findById(id);
 
     return hike
       ? res.json(hike)
       : res.status(404).json({ message: 'Hike not found' });
   } catch ({ message }) {
+    // Send error result
+    res.status(400).json({ message });
+  }
+};
+
+exports.updateHike = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, difficulty, time, note = '' } = req.body;
+
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: 'Please supply all required fields.' });
+    }
+
+    const hike = await Hike.findByIdAndUpdate(
+      id,
+      {
+        name,
+        difficulty,
+        time,
+        note,
+      },
+      { new: true }
+    );
+
+    if (hike) {
+      return res.json(hike);
+    } else {
+      return res.status(404).json({ message: 'Hike not found' });
+    }
+  } catch (e) {
     // Send error result
     res.status(400).json({ message });
   }
