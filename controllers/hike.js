@@ -59,7 +59,7 @@ exports.getHike = async (req, res) => {
 exports.updateHike = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, difficulty, time, note = '' } = req.body;
+    const { name, difficulty, time, note = '', image } = req.body;
 
     if (!id) {
       return res
@@ -74,6 +74,7 @@ exports.updateHike = async (req, res) => {
         difficulty,
         time,
         note,
+        image,
       },
       { new: true }
     );
