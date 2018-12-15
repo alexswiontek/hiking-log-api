@@ -3,7 +3,7 @@ const Hike = mongoose.model('Hike');
 
 exports.addHike = async (req, res) => {
   try {
-    const { name, difficulty, time, note = '' } = req.body;
+    const { name, difficulty, time, note = '', image } = req.body;
 
     // Create new hike
     // TODO: add author field to link to a single user
@@ -12,6 +12,7 @@ exports.addHike = async (req, res) => {
       difficulty,
       time,
       note,
+      image,
       // author: req.user._id,
     });
     await hike.save();
@@ -25,9 +26,7 @@ exports.addHike = async (req, res) => {
 
 exports.getHikes = async (req, res) => {
   try {
-    const hikes = await Hike.find()
-      .sort({ created: 'desc' })
-      .select('-__v');
+    const hikes = await Hike.find().sort({ created: 'desc' });
 
     return res.json(hikes);
   } catch ({ message }) {
