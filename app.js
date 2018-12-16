@@ -24,7 +24,8 @@ app.use(helmet());
 // Set cors origin
 app.use(
   cors({
-    origin: [FRONTEND_DEV_URL, FRONTEND_PROD_URL]
+    origin: [FRONTEND_DEV_URL, FRONTEND_PROD_URL],
+    credentials: true,
   })
 );
 
@@ -36,7 +37,7 @@ app.use(
     key: process.env.EXPRESS_KEY,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection })
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
   })
 );
 

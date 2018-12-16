@@ -4,7 +4,7 @@ const userController = require('../controllers/user');
 const authController = require('../controllers/auth');
 const hikeController = require('../controllers/hike');
 
-// Routes
+/* ======= ROUTES - AUTH/USER ======= */
 router.post(
   '/register',
   userController.validateRegister,
@@ -20,10 +20,16 @@ router.post(
 router.post('/logout', authController.logout);
 router.post('/forgot-password', authController.forgot);
 router.post('/reset', authController.confirmedPasswords, authController.reset);
-router.post('/add-hike', hikeController.addHike);
-router.get('/hikes', hikeController.getHikes);
-router.get('/hike/:id', hikeController.getHike);
-router.put('/hike/:id', hikeController.updateHike);
-router.delete('/hike/:id', hikeController.deleteHike);
+
+/* ======= ROUTES - HIKE ======= */
+router.post('/add-hike', authController.isLoggedIn, hikeController.addHike);
+router.get('/hikes', authController.isLoggedIn, hikeController.getHikes);
+router.get('/hike/:id', authController.isLoggedIn, hikeController.getHike);
+router.put('/hike/:id', authController.isLoggedIn, hikeController.updateHike);
+router.delete(
+  '/hike/:id',
+  authController.isLoggedIn,
+  hikeController.deleteHike
+);
 
 module.exports = router;

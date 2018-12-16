@@ -13,11 +13,15 @@ const frontEndBase =
 exports.passportAuthenticate = passport.authenticate('local');
 
 exports.login = (req, res) => {
-  res.json({ email: req.user.email });
+  const user = { email: req.user.email };
+
+  req.session.authUser = user;
+  res.json(user);
 };
 
 exports.logout = (req, res) => {
   req.logout();
+  delete req.session.authUser;
   res.status(204).json();
 };
 
@@ -27,7 +31,7 @@ exports.isLoggedIn = (req, res, next) => {
     return;
   }
 
-  res.status(400).json({ message: 'You must be logged in to do that!' });
+  res.status(401).json({ message: 'You must be logged in to do that!' });
 };
 
 exports.forgot = async (req, res) => {
@@ -57,7 +61,7 @@ exports.forgot = async (req, res) => {
         To reset your password
         <a href="${resetURL}" target=_blank>visit this link</a>
         or copy and paste it in your browser.
-      </p>`
+      </p>`,
     });
 
     // Send success message
@@ -82,7 +86,7 @@ exports.reset = async (req, res) => {
     // Make sure it has not expired
     const user = await User.findOne({
       resetPasswordToken: req.body.token,
-      resetPasswordExpires: { $gt: Date.now() }
+      resetPasswordExpires: { $gt: Date.now() },
     });
 
     // If no user found within the parameters, send error
