@@ -25,7 +25,9 @@ exports.addHike = async (req, res) => {
 
 exports.getHikes = async (req, res) => {
   try {
-    const hikes = await Hike.find().sort({ created: 'desc' });
+    const hikes = await Hike.find({ author: req.user._id }).sort({
+      created: 'desc',
+    });
 
     return res.json(hikes);
   } catch ({ message }) {
