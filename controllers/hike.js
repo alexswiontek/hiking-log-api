@@ -6,14 +6,13 @@ exports.addHike = async (req, res) => {
     const { name, difficulty, time, note = '', image } = req.body;
 
     // Create new hike
-    // TODO: add author field to link to a single user
     const hike = new Hike({
       name,
       difficulty,
       time,
       note,
       image,
-      // author: req.user._id,
+      author: req.user._id,
     });
     await hike.save();
 

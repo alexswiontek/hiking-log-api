@@ -26,11 +26,11 @@ const hikeSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  // author: {
-  //   type: mongoose.Schema.ObjectId,
-  //   ref: 'User',
-  //   required: 'You must supply an author',
-  // },
+  author: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: 'You must supply an author',
+  },
 });
 
 hikeSchema.plugin(mongodbErrorHandler);
