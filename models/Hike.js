@@ -12,7 +12,6 @@ const hikeSchema = new mongoose.Schema({
   name: {
     type: String,
     required: 'Please enter the name of the hike.',
-    unique: true,
     trim: true,
   },
   image: String,
