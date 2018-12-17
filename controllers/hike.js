@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const helpers = require('../handlers/helpers');
 const Hike = mongoose.model('Hike');
 
 exports.addHike = async (req, res) => {
@@ -25,7 +26,9 @@ exports.addHike = async (req, res) => {
 
 exports.getHikes = async (req, res) => {
   try {
-    const sorting = req.query || { created: 'desc' };
+    const sorting = helpers.isObjectEmpty(req.query)
+      ? { created: 'desc' }
+      : req.query;
 
     const hikes = await Hike.find({ author: req.user._id }).sort(sorting);
 
