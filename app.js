@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
+const promisify = require('es6-promisify');
 const routes = require('./routes/index');
 require('./handlers/passport');
 
@@ -29,11 +30,6 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Credentials', true);
-  next();
-});
-
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in and allows us to send flash messages
 app.use(
@@ -45,6 +41,12 @@ app.use(
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
   })
 );
+
+// Promisify some callback based APIs
+app.use((req, res, next) => {
+  req.login = promisify(req.login, req);
+  next();
+});
 
 // Takes the raw requests and turns them into usable properties on req.body
 app.use(bodyParser.json());
