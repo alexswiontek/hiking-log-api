@@ -1,15 +1,15 @@
-const express = require('express');
-const session = require('express-session');
-const expressValidator = require('express-validator');
-const bodyParser = require('body-parser');
-const passport = require('passport');
-const helmet = require('helmet');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const MongoStore = require('connect-mongo')(session);
-const promisify = require('es6-promisify');
-const routes = require('./routes/index');
-require('./handlers/passport');
+const express = require("express");
+const session = require("express-session");
+const expressValidator = require("express-validator");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const helmet = require("helmet");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const MongoStore = require("connect-mongo")(session);
+const promisify = require("es6-promisify");
+const routes = require("./routes/index");
+require("./handlers/passport");
 
 const { FRONTEND_DEV_URL, FRONTEND_PROD_URL } = process.env;
 
@@ -57,6 +57,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Set app to use all routes
-app.use('/', routes);
+app.use("/api", routes);
 
 module.exports = app;
